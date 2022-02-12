@@ -5,7 +5,7 @@ from run import bcrypt
 
 
 class Blog(db.Model):
-    __tablename__ = "blog"
+    __tablename__ = "blogs"
     id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.String(255))
     heading = db.Column(db.String(255))
@@ -48,7 +48,7 @@ def load_user(user_id):
 class Comment(db.Model):
     __tablename__ = "comments"
     id = db.Column(db.Integer, primary_key=True)
-    comment_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+    blog_id = db.Column(db.Integer, db.ForeignKey('blogs.id'))
     name = db.Column(db.String(255))
     desc = db.Column(db.String(255))
 
