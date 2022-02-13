@@ -8,7 +8,7 @@ class Blog(db.Model):
     __tablename__ = "blogs"
     id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.String(255))
-    image = db.Column(db.Text)
+    image = db.Column(db.LargeBinary)
     heading = db.Column(db.String(255))
     description = db.Column(db.String(255))
     posted = db.Column(db.Date)

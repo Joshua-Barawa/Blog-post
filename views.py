@@ -1,5 +1,4 @@
 from flask import render_template, request, redirect, url_for
-from werkzeug.utils import secure_filename
 from run import db
 from run import app
 from models import *
@@ -12,6 +11,11 @@ from flask_mail import Message
 from run import mail
 
 
+@app.route('/')
+def get_blogs():
+    blogs = Blog.query.all()
+    return render_template('blogs.html', blogs=blogs)
+
 # def mail_message(subject,template,to,**kwargs):
 #     sender_email = 'joshua.barawa@student.moringaschool.com'
 #
@@ -21,46 +25,37 @@ from run import mail
 #     mail.send(email)
 
 
-# @app.route('/pitch-form')
-# def form_pitch():
-#
-#     categories = Category.query.all()
-#     return render_template('pitch_form.html', categories=categories)
-#
-
-@app.route('/')
-def get_blogs():
-    blogs = Blog.query.all();
-    return render_template('blogs.html', blogs=blogs)
+@app.route('/blog-form')
+@login_required
+def form_pitch():
+    return render_template('blog_form.html')
 
 
 # @app.route('/<int:id>')
 # def get_pitches_by_category(id):
 #     pitches = Pitch.query.filter_by(category_id=id)
 #     return render_template('blogs.html', pitches=pitches)
-#
-#
-# @app.route('/add-pitch', methods=['POST'])
-# @login_required
-# def add_pitch():
-#
-#     categories = Category.query.all()
-#     if request.method == 'POST':
-#         category = request.form['category']
-#         heading = request.form['name']
-#         description = request.form['pitch']
-#         posted = date.today()
-#         upvote = 0
-#         downvote = 0
-#         name = current_user.username;
-#
-#         if category == '---select category---' or description == '' or heading == '':
-#             return render_template("pitch_form.html", message="Please enter required fields", categories=categories)
-#         else:
-#             pitch = Pitch(category, heading, description, posted, upvote, upvote,name)
-#             db.session.add(pitch)
-#             db.session.commit()
-#             return redirect(url_for("get_all_pitches"))
+
+
+@app.route('/post-blog', methods=['POST'])
+@login_required
+def add_pitch():
+
+    if request.method == 'POST':
+        category = request.form['category']
+        image = request.files['photo'].read()
+        heading = request.form['name']
+        description = request.form['pitch']
+        posted = date.today()
+        owner = current_user.username;
+
+        if category == '---select category---' or description == '' or heading == '':
+            return render_template("blog_form.html", message="Please enter required fields")
+        else:
+            blog = Blog(category, image, heading, description, posted, owner)
+            db.session.add(blog)
+            db.session.commit()
+            return redirect(url_for("get_blogs"))
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -72,7 +67,7 @@ def register_user():
         db.session.add(user)
         db.session.commit()
         return redirect(url_for('login'))
-    return render_template('auth/register.html', message="username or email already exits", form=register_form)
+    return render_template('auth/register.html', form=register_form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -83,17 +78,9 @@ def login():
         if user:
             if bcrypt.check_password_hash(user.password, login_form.password.data):
                 login_user(user)
-                return redirect(url_for("get_all_pitches"))
+                print(current_user)
+                return redirect(url_for("get_blogs"))
     return render_template('auth/login.html', form=login_form)
-
-
-@app.route("/<int:id>")
-def get_image(id):
-    user = User.query.filter_by(id=id).first()
-    if not user:
-        return "No user exits"
-    return user.profile_img
-
 
 
 # @app.route('/profile')
