@@ -1,8 +1,10 @@
-from flask import render_template, request, redirect, url_for, abort
-from run import app
-from models import Blog, User, Comment
-from datetime import date
+from flask import render_template, request, redirect, url_for
+from werkzeug.utils import secure_filename
 from run import db
+from run import app
+from models import *
+from datetime import date
+
 from flask_login import login_user, logout_user, login_required, current_user
 from forms import LoginForm, RegistrationForm
 from run import bcrypt
@@ -26,16 +28,16 @@ from run import mail
 #     return render_template('pitch_form.html', categories=categories)
 #
 
-# @app.route('/')
-# def get_all_pitches():
-#     pitches = Pitch.query.all()
-#     return render_template('pitches.html', pitches=pitches)
-#
+@app.route('/')
+def get_blogs():
+    blogs = Blog.query.all();
+    return render_template('blogs.html', blogs=blogs)
+
 
 # @app.route('/<int:id>')
 # def get_pitches_by_category(id):
 #     pitches = Pitch.query.filter_by(category_id=id)
-#     return render_template('pitches.html', pitches=pitches)
+#     return render_template('blogs.html', pitches=pitches)
 #
 #
 # @app.route('/add-pitch', methods=['POST'])
@@ -66,11 +68,11 @@ def register_user():
     register_form = RegistrationForm()
     if register_form.validate_on_submit():
         password_hash = bcrypt.generate_password_hash(register_form.password.data).decode('utf8')
-        user = User(email=register_form.email.data, username=register_form.username.data, password=password_hash)
+        user = User(full_names=register_form.full_names.data, email=register_form.email.data, username=register_form.username.data, password=password_hash)
         db.session.add(user)
         db.session.commit()
         return redirect(url_for('login'))
-    return render_template('auth/register.html', form=register_form)
+    return render_template('auth/register.html', message="username or email already exits", form=register_form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -83,6 +85,15 @@ def login():
                 login_user(user)
                 return redirect(url_for("get_all_pitches"))
     return render_template('auth/login.html', form=login_form)
+
+
+@app.route("/<int:id>")
+def get_image(id):
+    user = User.query.filter_by(id=id).first()
+    if not user:
+        return "No user exits"
+    return user.profile_img
+
 
 
 # @app.route('/profile')

@@ -22,10 +22,10 @@ h1{
     padding: 10px 0px;
     font-size:25px;
 }
- #email, #password, #username{
+ #email, #password, #username, #email, #full_names{
     width:80%;
-    padding:10px 10px;
-    margin-top:25px;
+    padding:7px 7px;
+    margin-bottom:20px;
     border-radius:5px;
     border:none;
     border:1px solid #ccc;
@@ -41,7 +41,7 @@ h1{
     text-align:center;
 
 }
-#password:focus, #username:focus{
+#password:focus, #username:focus, #email:focus, #full_names:focus{
     outline: none;
 }
 #submit{
@@ -77,10 +77,15 @@ h1{
     <p id="error">{{message}}</p>
             <form action="" method="POST">
         {{form.hidden_tag()}}
+        <label>Full names</label><br>
+        {{form.full_names}}<br>
+
         <label>Email</label><br>
         {{form.email}}<br>
+
          <label>Username</label><br>
          {{form.username}}<br>
+
          <label>Password</label><br>
         {{form.password}}
         {{form.submit}}

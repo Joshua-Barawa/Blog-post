@@ -8,13 +8,15 @@ class Blog(db.Model):
     __tablename__ = "blogs"
     id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.String(255))
+    image = db.Column(db.Text)
     heading = db.Column(db.String(255))
     description = db.Column(db.String(255))
     posted = db.Column(db.Date)
     owner = db.Column(db.String(255))
 
-    def __init__(self, category, heading, description, posted, owner):
-        self.category_id = category
+    def __init__(self, category_name, image, heading,description, posted, owner):
+        self.category_name = category_name
+        self.image = image
         self.heading = heading
         self.description = description
         self.posted = posted
@@ -24,14 +26,12 @@ class Blog(db.Model):
 class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
-    profile_img = db.Column(db.Text, nullable=False)
     full_names = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False)
     username = db.Column(db.String(255), nullable=False)
     password = db.Column(db.String(255), nullable=False)
 
-    def __init__(self, profile_img, full_names, email, username, password):
-        self.profile_img = profile_img
+    def __init__(self, full_names, email, username, password):
         self.full_names = full_names
         self.email = email
         self.username = username

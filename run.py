@@ -6,10 +6,9 @@ from flask_mail import Mail
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager, Server
 
-
 import os
-app = Flask(__name__)
 
+app = Flask(__name__)
 
 ENV = os.environ.get("ENV")
 
@@ -22,12 +21,11 @@ MAIL_USE_TLS = True
 MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
 MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
 
-
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-from models import *
+from views import *
 
 manager = Manager(app)
 manager.add_command('server', Server)
@@ -36,14 +34,24 @@ migrate = Migrate(app, db)
 manager.add_command('db', MigrateCommand)
 
 login_manager = LoginManager(app)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return None
+
+
 login_manager.login_view = 'login'
+
 bcrypt = Bcrypt(app)
 mail = Mail(app)
+
+from models import *
 
 
 @manager.shell
 def make_shell_context():
-    return dict(app=app, db=db)
+    return dict(db=db, app=app)
 
 
 if __name__ == '__main__':
