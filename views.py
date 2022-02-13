@@ -101,15 +101,15 @@ def login():
     return render_template('auth/login.html', form=login_form)
 
 
-# @app.route('/profile')
-# @login_required
-# def profile():
-#     user = User.query.filter_by(username=current_user.username).first()
-#     if user is None:
-#         abort(404)
-#     return render_template("profile.html", user=user)
-#
-#
+@app.route('/profile')
+@login_required
+def profile():
+    user = User.query.filter_by(username=current_user.username).first()
+    if user is None:
+        abort(404)
+    return render_template("profile.html", user=user)
+
+
 @app.route('/blog/<int:id>')
 @login_required
 def read_more(id):
