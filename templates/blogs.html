@@ -9,24 +9,24 @@
 <style>
     #repos{
     display: flex;
+    width:100%;
+ flex-wrap: wrap;
     padding:10px 5%;
 }
 
 .user-repo{
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-    margin-bottom: 40px;
-    padding: 20px;
-    width: 400px;
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px;
+    margin-bottom: 20px;
+    padding: 10px;
+    width:30%;
+    height:550px;
     border-radius:5px;
-    margin-right: 20px;
+
 }
 
 #other{
     display: flex;
-}
-
-#other p{
-   padding-right: 15px;
+    justify-content: space-between;
 }
 
 .posted{
@@ -37,12 +37,12 @@ margin-right:50px
 font-size:25px;
 font-weight:bold;
 }
-.l{
-color:green;
+
+.image{
+width:100%;
+height:70%
 }
-.d{
-color:red;
-}
+
 </style>
 <body>
 
@@ -71,13 +71,15 @@ color:red;
 <div id="repos">
 {% for blog in blogs %}
 <div class="user-repo">
-    <img src="{{ url_for('static',filename='images/' + blog.image)}}" alt="blog-pic">
+    <img class="image" src="{{ url_for('static',filename='images/' + blog.image)}}" alt="blog-pic">
      <div id="other">
            <p class="l">Category: {{blog.category_name}}</p>
            <p class="d">Posted: {{blog.posted}}</p>
            </div>
+     <div class="bottom">
         <p class="h">{{blog.heading}}</p>
           <a href="/blog/{{blog.id}}">Read More</a>
+        </div>
         </div>`
 {%endfor %}
 </div>

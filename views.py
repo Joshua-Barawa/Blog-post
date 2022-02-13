@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for,Response
+from flask import render_template, request, redirect, url_for, abort
 from run import db
 from run import app
 from models import *
@@ -100,16 +100,16 @@ def login():
 #     return render_template("profile.html", user=user)
 #
 #
-# @app.route('/pitch/<int:id>')
-# @login_required
-# def comment(id):
-#     pitch = Pitch.query.filter_by(id=id).first()
-#     comments = Comment.query.all()
-#     if pitch is None:
-#         abort(404)
-#     return render_template("readmore.html", pitch=pitch, comments=comments)
-#
-#
+@app.route('/pitch/<int:id>')
+@login_required
+def comment(id):
+    pitch = Pitch.query.filter_by(id=id).first()
+    comments = Comment.query.all()
+    if pitch is None:
+        abort(404)
+    return render_template("readmore.html", pitch=pitch, comments=comments)
+
+
 # @app.route('/add-comment', methods=['POST'])
 # @login_required
 # def add_comment():
@@ -124,11 +124,6 @@ def login():
 #             db.session.add(comment)
 #             db.session.commit()
 #             return render_template("success.html", message="Comment was added successful")
-
-@app.route('/<int:id>')
-def get_image(id):
-    blog = Blog.query.filter_by(id=id).first()
-    return Response(blog.image)
 
 
 @app.route('/logout')
