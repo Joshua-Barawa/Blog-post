@@ -10,55 +10,55 @@ from flask_mail import Message
 from run import mail
 
 
-def mail_message(subject,template,to,**kwargs):
-    sender_email = 'joshua.barawa@student.moringaschool.com'
-
-    email = Message(subject, sender=sender_email, recipients=[to])
-    email.body= render_template(template + ".txt",**kwargs)
-    email.html = render_template(template + ".html",**kwargs)
-    mail.send(email)
-
-
-@app.route('/pitch-form')
-def form_pitch():
-
-    categories = Category.query.all()
-    return render_template('pitch_form.html', categories=categories)
+# def mail_message(subject,template,to,**kwargs):
+#     sender_email = 'joshua.barawa@student.moringaschool.com'
+#
+#     email = Message(subject, sender=sender_email, recipients=[to])
+#     email.body= render_template(template + ".txt",**kwargs)
+#     email.html = render_template(template + ".html",**kwargs)
+#     mail.send(email)
 
 
-@app.route('/')
-def get_all_pitches():
-    pitches = Pitch.query.all()
-    return render_template('pitches.html', pitches=pitches)
+# @app.route('/pitch-form')
+# def form_pitch():
+#
+#     categories = Category.query.all()
+#     return render_template('pitch_form.html', categories=categories)
+#
 
+# @app.route('/')
+# def get_all_pitches():
+#     pitches = Pitch.query.all()
+#     return render_template('pitches.html', pitches=pitches)
+#
 
-@app.route('/<int:id>')
-def get_pitches_by_category(id):
-    pitches = Pitch.query.filter_by(category_id=id)
-    return render_template('pitches.html', pitches=pitches)
-
-
-@app.route('/add-pitch', methods=['POST'])
-@login_required
-def add_pitch():
-
-    categories = Category.query.all()
-    if request.method == 'POST':
-        category = request.form['category']
-        heading = request.form['name']
-        description = request.form['pitch']
-        posted = date.today()
-        upvote = 0
-        downvote = 0
-        name = current_user.username;
-
-        if category == '---select category---' or description == '' or heading == '':
-            return render_template("pitch_form.html", message="Please enter required fields", categories=categories)
-        else:
-            pitch = Pitch(category, heading, description, posted, upvote, upvote,name)
-            db.session.add(pitch)
-            db.session.commit()
-            return redirect(url_for("get_all_pitches"))
+# @app.route('/<int:id>')
+# def get_pitches_by_category(id):
+#     pitches = Pitch.query.filter_by(category_id=id)
+#     return render_template('pitches.html', pitches=pitches)
+#
+#
+# @app.route('/add-pitch', methods=['POST'])
+# @login_required
+# def add_pitch():
+#
+#     categories = Category.query.all()
+#     if request.method == 'POST':
+#         category = request.form['category']
+#         heading = request.form['name']
+#         description = request.form['pitch']
+#         posted = date.today()
+#         upvote = 0
+#         downvote = 0
+#         name = current_user.username;
+#
+#         if category == '---select category---' or description == '' or heading == '':
+#             return render_template("pitch_form.html", message="Please enter required fields", categories=categories)
+#         else:
+#             pitch = Pitch(category, heading, description, posted, upvote, upvote,name)
+#             db.session.add(pitch)
+#             db.session.commit()
+#             return redirect(url_for("get_all_pitches"))
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -85,39 +85,39 @@ def login():
     return render_template('auth/login.html', form=login_form)
 
 
-@app.route('/profile')
-@login_required
-def profile():
-    user = User.query.filter_by(username=current_user.username).first()
-    if user is None:
-        abort(404)
-    return render_template("profile.html", user=user)
-
-
-@app.route('/pitch/<int:id>')
-@login_required
-def comment(id):
-    pitch = Pitch.query.filter_by(id=id).first()
-    comments = Comment.query.all()
-    if pitch is None:
-        abort(404)
-    return render_template("readmore.html", pitch=pitch, comments=comments)
-
-
-@app.route('/add-comment', methods=['POST'])
-@login_required
-def add_comment():
-    if request.method == 'POST':
-        name = request.form['name']
-        description = request.form['comment']
-
-        if name == '' or description == '' :
-            return render_template("readmore.html", message="Please enter required fields")
-        else:
-            comment = Comment(name, description)
-            db.session.add(comment)
-            db.session.commit()
-            return render_template("success.html", message="Comment was added successful")
+# @app.route('/profile')
+# @login_required
+# def profile():
+#     user = User.query.filter_by(username=current_user.username).first()
+#     if user is None:
+#         abort(404)
+#     return render_template("profile.html", user=user)
+#
+#
+# @app.route('/pitch/<int:id>')
+# @login_required
+# def comment(id):
+#     pitch = Pitch.query.filter_by(id=id).first()
+#     comments = Comment.query.all()
+#     if pitch is None:
+#         abort(404)
+#     return render_template("readmore.html", pitch=pitch, comments=comments)
+#
+#
+# @app.route('/add-comment', methods=['POST'])
+# @login_required
+# def add_comment():
+#     if request.method == 'POST':
+#         name = request.form['name']
+#         description = request.form['comment']
+#
+#         if name == '' or description == '' :
+#             return render_template("readmore.html", message="Please enter required fields")
+#         else:
+#             comment = Comment(name, description)
+#             db.session.add(comment)
+#             db.session.commit()
+#             return render_template("success.html", message="Comment was added successful")
 
 
 @app.route('/logout')
