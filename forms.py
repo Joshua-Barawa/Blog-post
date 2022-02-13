@@ -1,10 +1,11 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, FileField
 from wtforms.validators import InputRequired, Email, ValidationError
 from models import User
 
 
 class RegistrationForm(FlaskForm):
+    profile_pic = FileField('Profile Pic')
     full_names = StringField("Enter your names", validators=[InputRequired()])
     email = StringField('Your Email Address', validators=[InputRequired(), Email()])
     username = StringField('Enter your username', validators=[InputRequired()])

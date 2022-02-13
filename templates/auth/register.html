@@ -75,8 +75,11 @@ h1{
 <div class="main">
 <h1>Create Account</h1>
     <p id="error">{{message}}</p>
-            <form action="" method="POST">
+            <form action="" method="POST" enctype="multipart/form-data">
         {{form.hidden_tag()}}
+
+
+           {{form.profile_pic}}<br>
         <label>Full names</label><br>
         {{form.full_names}}<br>
 

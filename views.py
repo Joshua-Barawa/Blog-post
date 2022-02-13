@@ -1,14 +1,19 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for,Response
 from run import db
 from run import app
 from models import *
 from datetime import date
-
+from werkzeug.utils import secure_filename
 from flask_login import login_user, logout_user, login_required, current_user
 from forms import LoginForm, RegistrationForm
 from run import bcrypt
 from flask_mail import Message
 from run import mail
+from uuid import uuid1
+import os
+
+UPLOAD_FOLDER = 'static/images/'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
@@ -43,16 +48,19 @@ def add_pitch():
 
     if request.method == 'POST':
         category = request.form['category']
-        image = request.files['photo'].read()
-        heading = request.form['name']
-        description = request.form['pitch']
+        image = request.files['photo']
+        heading = request.form['heading']
+        description = request.form['description']
         posted = date.today()
-        owner = current_user.username;
+        owner = current_user.username
+        pic_filename = secure_filename(image.filename)
+        pic_name = str(uuid1()) + "_" + pic_filename
+        image.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
 
         if category == '---select category---' or description == '' or heading == '':
             return render_template("blog_form.html", message="Please enter required fields")
         else:
-            blog = Blog(category, image, heading, description, posted, owner)
+            blog = Blog(category_name=category, image=pic_name, heading=heading, description=description, posted=posted, owner=owner)
             db.session.add(blog)
             db.session.commit()
             return redirect(url_for("get_blogs"))
@@ -116,6 +124,11 @@ def login():
 #             db.session.add(comment)
 #             db.session.commit()
 #             return render_template("success.html", message="Comment was added successful")
+
+@app.route('/<int:id>')
+def get_image(id):
+    blog = Blog.query.filter_by(id=id).first()
+    return Response(blog.image)
 
 
 @app.route('/logout')

@@ -71,7 +71,7 @@ color:red;
 <div id="repos">
 {% for blog in blogs %}
 <div class="user-repo">
-    <img src={{blog.image}} alt="blog-pic">
+    <img src="{{ url_for('static',filename='images/' + blog.image)}}" alt="blog-pic">
      <div id="other">
            <p class="l">Category: {{blog.category_name}}</p>
            <p class="d">Posted: {{blog.posted}}</p>
