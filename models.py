@@ -24,12 +24,14 @@ class Blog(db.Model):
 class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
-    full_names = db.Column(db.String(255))
-    email = db.Column(db.String(255))
-    username = db.Column(db.String(255))
+    profile_img = db.Column(db.Text, nullable=False)
+    full_names = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(255), nullable=False)
+    username = db.Column(db.String(255), nullable=False)
     password = db.Column(db.String(255), nullable=False)
 
-    def __init__(self, full_names, email, username, password):
+    def __init__(self, profile_img, full_names, email, username, password):
+        self.profile_img = profile_img
         self.full_names = full_names
         self.email = email
         self.username = username
