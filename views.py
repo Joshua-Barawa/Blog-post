@@ -21,6 +21,16 @@ def get_blogs():
     blogs = Blog.query.all()
     return render_template('blogs.html', blogs=blogs)
 
+
+@app.route('/my-blogs')
+def my_blogs():
+    blogs = Blog.query.filter_by(owner=current_user.username)
+    message = ''
+    if not blogs:
+        message = "You have not uploaded any blog"
+    return render_template('my_blogs.html', blogs=blogs)
+
+
 # def mail_message(subject,template,to,**kwargs):
 #     sender_email = 'joshua.barawa@student.moringaschool.com'
 #
@@ -36,10 +46,10 @@ def form_pitch():
     return render_template('blog_form.html')
 
 
-# @app.route('/<int:id>')
-# def get_pitches_by_category(id):
-#     pitches = Pitch.query.filter_by(category_id=id)
-#     return render_template('blogs.html', pitches=pitches)
+@app.route('/blogs/<string:category_name>')
+def get_blogs_by_category(category_name):
+    blogs = Blog.query.filter_by(category_name=category_name)
+    return render_template('blogs.html', blogs=blogs)
 
 
 @app.route('/post-blog', methods=['POST'])
@@ -100,14 +110,13 @@ def login():
 #     return render_template("profile.html", user=user)
 #
 #
-@app.route('/pitch/<int:id>')
+@app.route('/blog/<int:id>')
 @login_required
-def comment(id):
-    pitch = Pitch.query.filter_by(id=id).first()
-    comments = Comment.query.all()
-    if pitch is None:
+def read_more(id):
+    blog = Blog.query.filter_by(id=id).first()
+    if blog is None:
         abort(404)
-    return render_template("readmore.html", pitch=pitch, comments=comments)
+    return render_template("readmore.html", blog=blog)
 
 
 # @app.route('/add-comment', methods=['POST'])

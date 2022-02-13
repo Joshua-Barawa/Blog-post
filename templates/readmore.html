@@ -50,14 +50,13 @@ margin-right:30px;
 
 
 <div class="user-repo">
-        <p>{{pitch.heading}}</p>
-           <p>{{pitch.description}}</p>
+     <p>{{blog.heading}}</p>
+     <img class="image" src="{{ url_for('static',filename='images/' + blog.image)}}" alt="blog-pic">
+           <p>{{blog.description}}</p>
            <div id="other">
-           <p>Like: {{pitch.upvote}}</p>
-           <p>Dislike: {{pitch.downvote}}</p>
            </div>
-          <span class="posted">Posted By:{{pitch.name}}</span>
-          <span class="posted">{{pitch.posted}}</span><br>
+          <span class="posted">Posted By:{{blog.owner}}</span>
+          <span class="posted">{{blog.posted}}</span><br>
           <a href="/" class="btn btn-primary">Go back</a>
         </div>`
 
