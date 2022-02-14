@@ -51,6 +51,15 @@ height:70%
 text-decoration:none;
 }
 
+.quotes{
+margin:auto;
+text-align:center;
+}
+
+#quote{
+font-size:25px;
+}
+
 </style>
 <body>
 
@@ -75,7 +84,11 @@ text-decoration:none;
 </ul>
 </div>
 
-<h1>{{message}}</h1>
+<div class="quotes">
+<p id="quote">"{{response.get("quote")}}"</p>
+<p>by: {{response.get("author")}}</p>
+</div>
+
 <div id="repos">
 {% for blog in blogs %}
 <div class="user-repo">

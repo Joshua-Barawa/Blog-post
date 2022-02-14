@@ -11,6 +11,7 @@ from flask_mail import Message
 from run import mail
 from uuid import uuid1
 import os
+import requests, json
 
 UPLOAD_FOLDER = 'static/images/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -19,7 +20,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route('/')
 def get_blogs():
     blogs = Blog.query.all()
-    return render_template('blogs.html', blogs=blogs)
+    request = requests.get('http://quotes.stormconsultancy.co.uk/random.json')
+    response = json.loads(request.content)
+    return render_template('blogs.html', blogs=blogs, response=response)
 
 
 @app.route('/my-blogs')
@@ -49,7 +52,9 @@ def form_pitch():
 @app.route('/blogs/<string:category_name>')
 def get_blogs_by_category(category_name):
     blogs = Blog.query.filter_by(category_name=category_name)
-    return render_template('blogs.html', blogs=blogs)
+    request = requests.get('http://quotes.stormconsultancy.co.uk/random.json')
+    response = json.loads(request.content)
+    return render_template('blogs.html', blogs=blogs, response=response)
 
 
 @app.route('/post-blog', methods=['POST'])
@@ -84,6 +89,7 @@ def register_user():
         user = User(full_names=register_form.full_names.data, email=register_form.email.data, username=register_form.username.data, password=password_hash)
         db.session.add(user)
         db.session.commit()
+        send_mail(register_form.email.data)
         return redirect(url_for('login'))
     return render_template('auth/register.html', form=register_form)
 
@@ -179,6 +185,18 @@ def delete_blog(id):
     db.session.delete(delete_blog)
     db.session.commit()
     return redirect(url_for("my_blogs"))
+
+
+def send_mail(recipient):
+    msg = Message(
+        'Subscription',
+        sender='mwamlandabarawa@gmail.com',
+        recipients=[recipient]
+    )
+    msg.body = 'Hello, \n You have subscribed to our daily messaging.' \
+               ' You will receive the best movie recommendations'
+    mail.send(msg)
+
 
 
 
