@@ -9,7 +9,7 @@ from flask_script import Manager, Server
 
 app = Flask(__name__)
 
-ENV = "prod"
+ENV = "dev"
 app.config['ENV'] = ENV
 
 if ENV == 'prod':
