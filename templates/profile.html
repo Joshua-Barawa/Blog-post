@@ -24,23 +24,25 @@ font-size: 20px;
 </style>
 <body>
 <div class="nav">
-     <a href="/" class="logo">Pitches</a>
+    <a href="/" class="logo">Blog-Site</a>
 
 <ul class="links">
     {% if current_user.is_authenticated %}
-     <li class="link"><a href='/pitch-form'>Add-Pitch</a></li>
-    <li class="link"><a href='/2'>Self-Pitch</a></li>
-    <li class="link"><a href='/1'>Motivation</a></li>
-    <li class="link"><a href='/3'>Business</a></li>
+ <li class="link"><a href='/blogs/web development'>Web-Development</a></li>
+    <li class="link"><a href='/blogs/technology'>Technology</a></li>
+    <li class="link"><a href='/blogs/business'>Business</a></li>
+     <li class="link"><a href='/blog-form'>Add-Blog</a></li>
+     <li class="link"><a href='/my-blogs'>My-blogs</a></li>
     <li class="link"><a href='/profile'>Profile</a></li>
     <li class="link"><a href='/logout'>Logout</a></li>
     {% else %}
+
     <li class="link"><a href='/login'>Login</a></li>
    <li class="link"><a href='/register'>SignUp</a></li>
     {%endif%}
+
 </ul>
 </div>
-
 <div id="profile">
 <h1>User Profile</h1>
 <p>Full Names:{{user.full_names}}</p>

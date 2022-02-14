@@ -1,19 +1,18 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_mail import Mail
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager, Server
 
-import os
 
 app = Flask(__name__)
 
 ENV = "prod"
 app.config['ENV'] = ENV
 
-if ENV == 'pro':
+if ENV == 'prod':
     app.debug = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://msfymjupypanwa' \
                                             ':017e15df3dbc3b5715be475b57f8400bfef32ee744a18079cf356c92fafedef6@ec2-54' \
