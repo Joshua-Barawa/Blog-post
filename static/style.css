@@ -3,7 +3,7 @@
 display: flex;
 justify-content: space-between;
 align-items: center;
-background-color:#0e387a;
+background-color:#696969;
 text-align:center;
 height:80px;
 position:relative;
@@ -12,12 +12,14 @@ position:relative;
 .nav .logo{
 padding: 0px 5%;
 font-size:25px;
+text-decoration:none;
 }
 
 .nav .links{
 display: inline-flex;
 padding: 0px 5%;
 color:white;
+text-decoration:none;
 }
 
 .links .link{
@@ -26,5 +28,6 @@ color:white;
    font-size: 21px;
    list-style-type:none;
    color:white;
+   text-decoration:none;
 }
 

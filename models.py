@@ -54,6 +54,7 @@ class Comment(db.Model):
     name = db.Column(db.String(255))
     desc = db.Column(db.String(255))
 
-    def __init__(self, name, desc):
+    def __init__(self, blog_id, name, desc):
+        self.blog_id = blog_id
         self.name = name
         self.desc = desc

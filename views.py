@@ -114,25 +114,26 @@ def profile():
 @login_required
 def read_more(id):
     blog = Blog.query.filter_by(id=id).first()
+    comments = Comment.query.filter_by(blog_id=id)
     if blog is None:
         abort(404)
-    return render_template("readmore.html", blog=blog)
+    return render_template("readmore.html", blog=blog, comments=comments)
 
 
-# @app.route('/add-comment', methods=['POST'])
-# @login_required
-# def add_comment():
-#     if request.method == 'POST':
-#         name = request.form['name']
-#         description = request.form['comment']
-#
-#         if name == '' or description == '' :
-#             return render_template("readmore.html", message="Please enter required fields")
-#         else:
-#             comment = Comment(name, description)
-#             db.session.add(comment)
-#             db.session.commit()
-#             return render_template("success.html", message="Comment was added successful")
+@app.route('/add-comment', methods=['POST'])
+@login_required
+def add_comment():
+    if request.method == 'POST':
+        name = request.form['name']
+        description = request.form['comment']
+        blog_id = request.form['blog_id'];
+        if name == '' or description == '' :
+            return render_template("readmore.html", message="Please enter required fields")
+        else:
+            comment = Comment(blog_id, name, description)
+            db.session.add(comment)
+            db.session.commit()
+            return render_template("success.html", message="Comment was added successful")
 
 
 @app.route('/logout')

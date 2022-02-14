@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{blog.heading}}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -84,6 +84,10 @@ margin-bottom:50px;
             </div>
             <br>
             <form action="/add-comment" method="POST">
+                 <div class="form-row">
+                      <label for="blog_id">Id <--Auto filled--></label>
+                    <input class="form-control" type="text"  value={{blog.id}} id="blog_id" name="blog_id">
+                </div><br>
                 <div class="form-row">
                       <label for="name">Name</label>
                     <input class="form-control" type="text" placeholder="name" id="name" name="name">
@@ -104,7 +108,7 @@ margin-bottom:50px;
 {% for comment in comments %}
 <div class="user-repo">
         <p>{{comment.name}}</p>
-           <p>{{comment.desc}}</p>
+           <p>{{comment.desc}}</p><a class="btn btn-danger" href="">Delete Comment</a>
         </div>`
 {%endfor %}
 </div>
