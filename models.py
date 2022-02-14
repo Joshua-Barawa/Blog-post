@@ -1,6 +1,5 @@
 from run import db
 from flask_login import UserMixin
-from run import bcrypt
 
 
 class Blog(db.Model):
@@ -35,10 +34,6 @@ class User(UserMixin, db.Model):
         self.email = email
         self.username = username
         self.password = password
-
-    def set_password(self, pw):
-        pwhash = bcrypt.hashpw(pw.encode('utf8'), bcrypt.gensalt())
-        self.password = pwhash.decode('utf8')
 
 
 class Comment(db.Model):
