@@ -1,7 +1,8 @@
 from flask import render_template, request, redirect, url_for, abort
+from run import bcrypt
 from run import db
 from run import app
-from run import bcrypt
+from run import mail
 from models import *
 from datetime import date
 from werkzeug.utils import secure_filename
@@ -9,7 +10,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from forms import LoginForm, RegistrationForm
 
 from flask_mail import Message
-from run import mail
+
 from uuid import uuid1
 import os
 import requests, json
@@ -33,15 +34,6 @@ def my_blogs():
     if not blogs:
         message = "You have not uploaded any blog"
     return render_template('my_blogs.html', blogs=blogs)
-
-
-# def mail_message(subject,template,to,**kwargs):
-#     sender_email = 'joshua.barawa@student.moringaschool.com'
-#
-#     email = Message(subject, sender=sender_email, recipients=[to])
-#     email.body= render_template(template + ".txt",**kwargs)
-#     email.html = render_template(template + ".html",**kwargs)
-#     mail.send(email)
 
 
 @app.route('/blog-form')
