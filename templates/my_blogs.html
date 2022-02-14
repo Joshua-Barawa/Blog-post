@@ -20,13 +20,16 @@
     padding: 10px;
     width:30%;
     height:550px;
+    max-height:550px;
     border-radius:5px;
-
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
 }
 
 #other{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .posted{
@@ -74,14 +77,12 @@ height:70%
 {% for blog in blogs %}
 <div class="user-repo">
     <img class="image" src="{{ url_for('static',filename='images/' + blog.image)}}" alt="blog-pic">
+     <p class="h">{{blog.heading}}</p>
+
      <div id="other">
-           <p class="l">Category: {{blog.category_name}}</p>
-           <p class="d">Posted: {{blog.posted}}</p>
+           <a class="btn btn-primary" href="/update-blog/{{blog.id}}">Update Blog</a>
+           <a class="btn btn-danger" href="/delete-blog/{{blog.id}}">Delete Blog</a>
            </div>
-     <div class="bottom">
-        <p class="h">{{blog.heading}}</p>
-          <a href="/blog/{{blog.category_name}}">Read More</a>
-        </div>
         </div>`
 {%endfor %}
 </div>

@@ -145,6 +145,16 @@ def delete_comment(id):
     return redirect(url_for("read_more", id=delete_comment.blog_id))
 
 
+@app.route('/delete-blog/<int:id>')
+@login_required
+def delete_blog(id):
+    delete_blog = Blog.query.filter_by(id=id).first()
+    db.session.delete(delete_blog)
+    db.session.commit()
+    return redirect(url_for("my_blogs"))
+
+
+
 @app.route('/logout')
 @login_required
 def logout():
