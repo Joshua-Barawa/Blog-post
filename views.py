@@ -1,12 +1,13 @@
 from flask import render_template, request, redirect, url_for, abort
 from run import db
 from run import app
+from run import bcrypt
 from models import *
 from datetime import date
 from werkzeug.utils import secure_filename
 from flask_login import login_user, logout_user, login_required, current_user
 from forms import LoginForm, RegistrationForm
-from run import bcrypt
+
 from flask_mail import Message
 from run import mail
 from uuid import uuid1
