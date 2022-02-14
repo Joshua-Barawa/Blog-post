@@ -9,7 +9,7 @@ import os
 
 app = Flask(__name__)
 
-ENV = os.environ.get(ENV)
+ENV = os.environ.get("ENV")
 
 if ENV == 'prod':
     app.debug = True
