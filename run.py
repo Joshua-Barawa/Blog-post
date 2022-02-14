@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import Bcrypt
+
 from flask_mail import Mail
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager, Server
@@ -49,7 +49,7 @@ migrate = Migrate(app, db)
 manager.add_command('db', MigrateCommand)
 
 login_manager = LoginManager(app)
-
+from flask_bcrypt import Bcrypt
 
 @login_manager.user_loader
 def load_user(user_id):
