@@ -5,12 +5,11 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager, Server
-
+import os
 
 app = Flask(__name__)
 
-ENV = "prod"
-app.config['ENV'] = ENV
+ENV = os.environ.get(ENV)
 
 if ENV == 'prod':
     app.debug = True
