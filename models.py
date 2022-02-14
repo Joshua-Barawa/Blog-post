@@ -1,5 +1,4 @@
 from run import db
-from run import login_manager
 from flask_login import UserMixin
 from run import bcrypt
 
@@ -40,11 +39,6 @@ class User(UserMixin, db.Model):
     def set_password(self, pw):
         pwhash = bcrypt.hashpw(pw.encode('utf8'), bcrypt.gensalt())
         self.password = pwhash.decode('utf8')
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
 
 
 class Comment(db.Model):
