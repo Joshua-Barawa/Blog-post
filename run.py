@@ -49,12 +49,13 @@ migrate = Migrate(app, db)
 manager.add_command('db', MigrateCommand)
 
 login_manager = LoginManager(app)
-from flask_bcrypt import Bcrypt
+
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+from flask_bcrypt import Bcrypt
 
 login_manager.login_view = 'login'
 
