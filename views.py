@@ -133,7 +133,16 @@ def add_comment():
             comment = Comment(blog_id, name, description)
             db.session.add(comment)
             db.session.commit()
-            return render_template("success.html", message="Comment was added successful")
+            return redirect(url_for("read_more", id=blog_id))
+
+
+@app.route('/delete-comment/<int:id>')
+@login_required
+def delete_comment(id):
+    delete_comment = Comment.query.filter_by(id=id).first()
+    db.session.delete(delete_comment)
+    db.session.commit()
+    return redirect(url_for("read_more", id=delete_comment.blog_id))
 
 
 @app.route('/logout')
