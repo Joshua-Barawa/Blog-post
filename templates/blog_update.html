@@ -38,11 +38,11 @@
             <div class="row align-items-center justify-content-center">
                 <h1>Update Blog</h1>
             </div>
-            <form action="/update-blog" method="POST" enctype="multipart/form-data" >
+            <form action="/update-blog/{{blog.id}}" method="POST" enctype="multipart/form-data" >
                 <div class="form-row">
                       <label for="category">Blog Category</label>
                     <select name="category" id="category" class="form-select" aria-label="Default select example">
-                      <option selected>---select category---</option>
+                      <option selected>{{blog.category_name}}</option>
                       <option value="web development">Web Development</option>
                        <option value="technology">Technology</option>
                        <option value="business">Business</option>
@@ -51,16 +51,16 @@
                 <br>
                  <div class="form-row">
                     <label for="photo">Blog Pic</label>
-                    <input class="form-control" type="file" value="" id="photo" name="photo">
+                    <input class="form-control" type="file" id="photo" name="photo">
                 </div>
                 <div class="form-row">
-                    <label for="heading">Blog Heading</label>
-                    <input class="form-control" type="text" value="" id="heading" name="heading">
+                    <label for="heading">Blog Title</label>
+                    <input class="form-control" type="text" value={{blog.heading}} id="heading" name="heading">
                 </div>
                 <br>
                 <div class="form-row">
                     <label for="description">Description</label>
-                    <textarea class="form-control" type="text" value="" placeholder="Description" id="description" name="description"></textarea>
+                    <textarea class="form-control" type="text" value={{blog.description}} id="description" name="description"></textarea>
                 </div>
                 <br>
                 <button type="submit " class="btn btn-primary " style="float:right ">Update</button>

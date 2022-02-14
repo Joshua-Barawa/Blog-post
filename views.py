@@ -54,7 +54,7 @@ def get_blogs_by_category(category_name):
 
 @app.route('/post-blog', methods=['POST'])
 @login_required
-def add_pitch():
+def add_blog():
 
     if request.method == 'POST':
         category = request.form['category']
@@ -143,6 +143,33 @@ def delete_comment(id):
     db.session.delete(delete_comment)
     db.session.commit()
     return redirect(url_for("read_more", id=delete_comment.blog_id))
+
+
+@app.route('/blog-update/<int:id>')
+@login_required
+def blog_update_form(id):
+    blog = Blog.query.filter_by(id=id).first()
+    return render_template("blog_update.html", blog=blog)
+
+
+@app.route('/update-blog/<int:id>', methods=['POST'])
+@login_required
+def blog_update(id):
+    category = request.form['category']
+    image = request.files['photo']
+    heading = request.form['heading']
+    description = request.form['description']
+    posted = date.today()
+    owner = current_user.username
+    pic_filename = secure_filename(image.filename)
+    pic_name = str(uuid1()) + "_" + pic_filename
+    image.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
+
+    edited_blog = Blog.query.filter_by(id=id).update({"category_name":category, "image":pic_name, "heading":heading,
+                                                       "description":description, "posted":posted, "owner":owner})
+
+    db.session.commit()
+    return redirect(url_for("my_blogs"))
 
 
 @app.route('/delete-blog/<int:id>')
