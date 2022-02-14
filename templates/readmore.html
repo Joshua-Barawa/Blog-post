@@ -10,9 +10,8 @@
 
 .user-repo{
     padding: 20px;
-    width: 400px;
-    border-radius:10px;
     margin:10px 14%;
+
 }
 
 #other{
@@ -25,7 +24,25 @@
 
 .posted{
 margin-right:30px;
+font-style:italic;
 }
+.image{
+width:80%;
+height:600px;
+}
+.btn-primary{
+margin-top:20px;
+}
+
+.heading{
+font-size:35px;
+font-weight:bold;
+}
+
+#comments{
+margin-bottom:50px;
+}
+
 </style>
 <body>
 <div class="nav">
@@ -50,14 +67,14 @@ margin-right:30px;
 
 
 <div class="user-repo">
-     <p>{{blog.heading}}</p>
+     <p class="heading">{{blog.heading}}</p>
      <img class="image" src="{{ url_for('static',filename='images/' + blog.image)}}" alt="blog-pic">
            <p>{{blog.description}}</p>
            <div id="other">
            </div>
-          <span class="posted">Posted By:{{blog.owner}}</span>
+          <span class="posted">Posted By: {{blog.owner}}</span>
           <span class="posted">{{blog.posted}}</span><br>
-          <a href="/" class="btn btn-primary">Go back</a>
+          <a href="/" class="btn btn-primary">Return</a>
         </div>`
 
 <div class="container">
